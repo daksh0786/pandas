@@ -1,0 +1,340 @@
+
+url --- https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html
+
+####### Panda ######
+
+Pandas is a Python package providing fast, flexible, and expressive data structures designed
+to make working with “relational” or “labeled” data both easy and intuitive.
+
+It aims to be the fundamental high-level building block for doing practical, real-world data analysis in Python
+
+Pandas is built on top of NumPy and is intended to integrate well within a scientific
+computing environment with many other 3rd party libraries.
+
+Feature that panda can do easily:
+	1)Easy handling of missing data
+	2)Size mutability
+	3)Intuitive merging and joining data sets
+	4)Flexible reshaping
+	5)pandas is fast
+	6)pandas has been used extensively in production in financial applications
+	7)pandas is actively supported today by a community
+	
+	
+1) To install 
+	pip install pandas
+	
+2) then import pandas
+	import pandas as pd
+	
+3) To manually store data in a table, create a DataFrame. A DataFrame is a 2-dimensional data structure that can store data of 
+   different types (including characters, integers, floating point values, categorical data and more) in columns.
+   
+   It is similar to a spreadsheet, a SQL table
+   Each column in a DataFrame is a Series.	
+   
+   example: 
+		---- creating a dataframe ---
+		df = pd.DataFrame(
+			{
+				"Name": [
+					"Braund, Mr. Owen Harris",
+					"Allen, Mr. William Henry",
+					"Bonnell, Miss. Elizabeth",
+				],
+				"Age": [22, 35, 58],
+				"Sex": ["male", "male", "female"],
+			}
+		)
+		
+		--- viewing the dataframe created --- 
+		df
+		output:
+				Name	Age	Sex
+		0	 sita maa	22	female
+		1	  ram ji	35	male
+		2   Lakshman ji	58	male
+		3	hanuman ji	24	male
+		
+		---- selecting Age column from the DataFrame ---
+		df["Age"]
+		output:
+			0    22
+			1    35
+			2    58
+			Name: Age, dtype: int64
+		
+		--- finding the max of AGE ---
+		df["Age"].max()
+		output:
+			58
+			
+		---  The describe() method provides a quick overview of the numerical data in a DataFrame. ---
+		--- As the Name and Sex columns are textual data, these are by default not taken into account by the describe() method. ---
+		df.describe()
+		output:
+			             Age
+			count   3.000000
+			mean   38.333333
+			std    18.230012
+			min    22.000000
+			25%    28.500000
+			50%    35.000000
+			75%    46.500000
+			max    58.000000
+
+
+4) to analyze a Excel, CSV, and many other types of files you have to make it available
+	it to pandas for analyzing
+
+	lets take an example of titanic file which is located in --- data/titanic.csv
+		
+	lets get started:
+
+	1) we have to read the file using pandas: 
+	
+	   ----- pandas supports many different file formats or data sources out of the box (csv, excel, sql, json, parquet, …)
+	   each of them with the prefix read_*. -----
+	   
+		but here we use read_csv to read the csv file
+		
+		--- reading the csv ---
+		titanic = pd.read_csv("data/titanic.csv")
+		
+		--- printing the csv that was read ---
+		titanic
+		output:
+			     PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+			0              1         0       3  ...   7.2500   NaN         S
+			1              2         1       1  ...  71.2833   C85         C
+			2              3         1       3  ...   7.9250   NaN         S
+			3              4         1       1  ...  53.1000  C123         S
+			4              5         0       3  ...   8.0500   NaN         S
+			..           ...       ...     ...  ...      ...   ...       ...
+			886          887         0       2  ...  13.0000   NaN         S
+			887          888         1       1  ...  30.0000   B42         S
+			888          889         0       3  ...  23.4500   NaN         S
+			889          890         1       1  ...  30.0000  C148         C
+			890          891         0       3  ...   7.7500   NaN         Q
+
+			[891 rows x 12 columns]
+			
+		
+		
+		--- first 8 rows of a pandas DataFrame.--- 
+		
+		titanic.head(8)
+		output: 
+			   PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+			0            1         0       3  ...   7.2500   NaN         S
+			1            2         1       1  ...  71.2833   C85         C
+			2            3         1       3  ...   7.9250   NaN         S
+			3            4         1       1  ...  53.1000  C123         S
+			4            5         0       3  ...   8.0500   NaN         S
+			5            6         0       3  ...   8.4583   NaN         Q
+			6            7         0       1  ...  51.8625   E46         S
+			7            8         0       3  ...  21.0750   NaN         S
+
+			[8 rows x 12 columns]
+		
+		
+		--- to check the datatypes used ---
+		
+		titanic.dtypes
+		output:
+			PassengerId      int64
+			Survived         int64
+			Pclass           int64
+			Name            object
+			Sex             object
+			Age            float64
+			SibSp            int64
+			Parch            int64
+			Ticket          object
+			Fare           float64
+			Cabin           object
+			Embarked        object
+			dtype: object
+			
+			
+		---  the to_* methods are used to store data ---(IMP)
+		--- to convert this csv file to exel we use method to_exel()
+		
+		titanic.to_excel("titanic.xlsx", sheet_name="passengers") ##sheet_name is named passengers instead of the default Sheet1
+		
+		
+		--- to read in exel again we use read_exel ---
+		
+		titanic = pd.read_excel("titanic.xlsx", sheet_name="passengers")
+		
+		
+		--- to see the technical summary of the dataframe we use info() ---
+		
+		titanic.info()
+		output:
+			<class 'pandas.core.frame.DataFrame'>
+			RangeIndex: 891 entries, 0 to 890
+			Data columns (total 12 columns):
+			 #   Column       Non-Null Count  Dtype  
+			---  ------       --------------  -----  
+			 0   PassengerId  891 non-null    int64  
+			 1   Survived     891 non-null    int64  
+			 2   Pclass       891 non-null    int64  
+			 3   Name         891 non-null    object 
+			 4   Sex          891 non-null    object 
+			 5   Age          714 non-null    float64
+			 6   SibSp        891 non-null    int64  
+			 7   Parch        891 non-null    int64  
+			 8   Ticket       891 non-null    object 
+			 9   Fare         891 non-null    float64
+			 10  Cabin        204 non-null    object 
+			 11  Embarked     889 non-null    object 
+			dtypes: float64(2), int64(5), object(5)
+			memory usage: 83.7+ KB
+		
+		
+		--- to check the shape of the dataframe we use .shape ---
+		
+		titanic.shape
+		
+		--- to select a particular column from the dataframe pass the array of those column in the place of column ---
+		--- like i want Age and Sex column only of titanic ---
+		
+		age_sex = titanic[["Age", "Sex"]]
+		
+		--- printing age_sex first 5 indexes ---
+		
+		age_sex.head()
+		output:
+			    Age     Sex
+			0  22.0    male
+			1  38.0  female
+			2  26.0  female
+			3  35.0  female
+			4  35.0    male
+			
+			
+		--- to filter a particular row we can pass the condition in the dataframe only ---
+		--- like i want passenger older than 35 in titanic dataframe ---
+		
+		above_35 = titanic[titanic["Age"] > 35]
+		
+		--- printing above_35 first 5 indexes --
+		
+		above_35.head()
+		output:
+			    PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+			1             2         1       1  ...  71.2833   C85         C
+			6             7         0       1  ...  51.8625   E46         S
+			11           12         1       1  ...  26.5500  C103         S
+			13           14         0       3  ...  31.2750   NaN         S
+			15           16         1       2  ...  16.0000   NaN         S
+
+			[5 rows x 12 columns]
+			
+			
+		--- like Titanic passengers from cabin class 2 and 3. ---
+		
+		class_23 = titanic[titanic["Pclass"].isin([2, 3])]
+		
+		--- printing class_23 first 5 indexes ---
+		
+		class_23.head()
+		output:
+			   PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+			0            1         0       3  ...   7.2500   NaN         S
+			2            3         1       3  ...   7.9250   NaN         S
+			4            5         0       3  ...   8.0500   NaN         S
+			5            6         0       3  ...   8.4583   NaN         Q
+			7            8         0       3  ...  21.0750   NaN         S
+
+			[5 rows x 12 columns]
+			
+			
+		--- we can use  or operations on these while applying filter ---
+		
+		--- to find which row values are notKnown/NAN etc we use notna() ---
+		--- like I want to work with passenger data for which the age is known ---
+		
+		age_no_na = titanic[titanic["Age"].notna()]
+		
+		age_no_na.head()
+		output:
+				PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+			0            1         0       3  ...   7.2500   NaN         S
+			1            2         1       1  ...  71.2833   C85         C
+			2            3         1       3  ...   7.9250   NaN         S
+			3            4         1       1  ...  53.1000  C123         S
+			4            5         0       3  ...   8.0500   NaN         S	
+		
+		
+		
+	2) How do I select specific rows and columns from a DataFrame?
+		
+		for this purpose of selecting both rows and column we use loc/iloc operators before selection bracket
+		When using loc/iloc, the part before the comma is the rows you want,
+		and the part after the comma is the columns you want to select.
+		
+		difference between loc and iloc:
+			loc ---loc uses the labels of the rows and columns to select the data.
+				   For example, data.loc[0, "Name"] will select the first row and the "Name" column of the DataFrame data.
+		
+			iloc ---iloc uses the integer positions of the rows and columns to select the data. For example, data.
+					iloc[0, 0] will select the first row and the first column of the DataFrame data.
+		
+			in general, loc is more flexible than iloc because it can be used to select data by name, even if the names are not consecutive integers. 
+			However,iloc is faster than loc because it does not need to look up the labels of the rows and column
+		
+		--- like i am interested in the names of the passengers older than 35 years  so we will use loc as we searching for labels---
+		
+		adult_names = titanic.loc[titanic["Age"] > 35, "Name"]
+		
+		adult_names.head()
+		output:
+			1     Cumings, Mrs. John Bradley (Florence Briggs Th...
+			6                               McCarthy, Mr. Timothy J
+			11                             Bonnell, Miss. Elizabeth
+			13                          Andersson, Mr. Anders Johan
+			15                     Hewlett, Mrs. (Mary D Kingcome) 
+			Name: Name, dtype: object
+			
+			
+		
+		--- I’m interested in rows 10 till 25 and columns 3 to 5 so we use iloc as we are seaching by index ---
+		
+		titanic.iloc[9:25, 2:5]
+		output:
+			    Pclass                                 Name     Sex
+			9        2  Nasser, Mrs. Nicholas (Adele Achem)  female
+			10       3      Sandstrom, Miss. Marguerite Rut  female
+			11       1             Bonnell, Miss. Elizabeth  female
+			12       3       Saundercock, Mr. William Henry    male
+			13       3          Andersson, Mr. Anders Johan    male
+			..     ...                                  ...     ...
+			20       2                 Fynney, Mr. Joseph J    male
+			21       2                Beesley, Mr. Lawrence    male
+			22       3          McGowan, Miss. Anna "Annie"  female
+			23       1         Sloper, Mr. William Thompson    male
+			24       3        Palsson, Miss. Torborg Danira  female
+			
+			
+		--- to assign the name anonymous to the first 3 elements of the fourth column: ---
+		
+		titanic.iloc[0:3, 3] = "anonymous"
+		
+		titanic.head()
+		output:
+			   PassengerId  Survived  Pclass  ...     Fare Cabin  Embarked
+			0            1         0       3  ...   7.2500   NaN         S
+			1            2         1       1  ...  71.2833   C85         C
+			2            3         1       3  ...   7.9250   NaN         S
+			3            4         1       1  ...  53.1000  C123         S
+			4            5         0       3  ...   8.0500   NaN         S
+		
+
+		
+	3) How do I create plots in pandas
+	
+		import pandas as pd
+		
+		import matplotlib.pyplot as plt
