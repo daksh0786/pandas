@@ -53,7 +53,7 @@ Feature that panda can do easily:
 				Name	Age	Sex
 		0	 sita maa	22	female
 		1	  ram ji	35	male
-		2   Lakshman ji	58	male
+		2  	 Lakshman ji	58	male
 		3	hanuman ji	24	male
 		
 		---- selecting Age column from the DataFrame ---
@@ -281,7 +281,7 @@ Feature that panda can do easily:
 		
 			iloc ---iloc uses the integer positions of the rows and columns to select the data. For example, data.
 					iloc[0, 0] will select the first row and the first column of the DataFrame data.
-		
+		 
 			in general, loc is more flexible than iloc because it can be used to select data by name, even if the names are not consecutive integers. 
 			However,iloc is faster than loc because it does not need to look up the labels of the rows and column
 		
